@@ -99,7 +99,9 @@ def receive():
         ordered.append(m)
       ol = len(ordered)
       ordered.append(ordered[0])
+      print ordered
       for i, m in enumerate(ordered):
+        print m
         num, name = m.split(":", 1)
         pnum, pname = ordered[i + 1].split(":", 1)
         send(num, "You're MONITO MONITA is %s!", pname)
