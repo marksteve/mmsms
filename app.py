@@ -81,12 +81,13 @@ def receive():
 
     if s[0] == "JOIN":
       id = s[1]
-      name = s[2]
+      name = " ".join(s[2:])
       o = db.get(key("mmowners", id))
       db.sadd(key("mmgroups", id), key(num, name))
       send(o, "%s (%s) has joined!" % (name, num))
 
     if s[0] == "DRAW":
+      id = s[1]
       o = db.get(key("mmowners", id))
       if num != o:
         abort(403)
