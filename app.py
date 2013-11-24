@@ -110,7 +110,7 @@ def receive():
       send(
         num,
         "Everyone has their MONITO MONITA now! "
-        "For best experience try starting from %s (%s)"
+        "For best experience try starting from %s (%s) "
         "when exchanging gifts!" % (fname, fnum),
       )
 
