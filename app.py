@@ -106,6 +106,13 @@ def receive():
         send(num, "Your MONITO MONITA is %s!" % pname)
         if i >= ol - 1:
           break
+      fnum, fname = ordered[0].split(":", 1)
+      send(
+        num,
+        "Everyone has their MONITO MONITA now! "
+        "For best experience try starting from %s (%s)"
+        "when exchanging gifts!" % (fname, fnum),
+      )
 
     break
   return ""
