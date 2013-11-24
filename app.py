@@ -1,4 +1,5 @@
 from flask import (
+  abort,
   Flask,
   request,
 )
@@ -99,12 +100,10 @@ def receive():
         ordered.append(m)
       ol = len(ordered)
       ordered.append(ordered[0])
-      print ordered
       for i, m in enumerate(ordered):
-        print
         num, name = m.split(":", 1)
         pnum, pname = ordered[i + 1].split(":", 1)
-        send(num, "You're MONITO MONITA is %s!", pname)
+        send(num, "You're MONITO MONITA is %s!" % pname)
         if i >= ol - 1:
           break
 
