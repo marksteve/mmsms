@@ -60,7 +60,11 @@ def receive():
     num = m["senderAddress"].replace("tel:+63", "")
 
     if s[0] == "CREATE":
-      id = simpleflake()
+      while True:
+        id = simpleflake()[:6]
+        if db.exists(id):
+          continue
+        break
       db.set(key("mmowners", id), num)
       send(
         num,
