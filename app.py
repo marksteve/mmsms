@@ -62,6 +62,16 @@ def receive():
     if s[0] == "CREATE":
       id = simpleflake()
       db.set(key("mmowners", id), num)
+      send(
+        num,
+        (
+          "Game! Make participants subscribe to %s as well. "
+          "Then, they can join by sending "JOIN %s <NAME>"
+        ) % (
+          SHORTCODE,
+          id,
+        )
+      )
 
     if s[0] == "JOIN":
       id = s[1]
