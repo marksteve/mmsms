@@ -33,7 +33,7 @@ def send(user, message):
     outboundSMSMessageRequest=dict(
     clientCorrelator=simpleflake(),
     senderAddress="tel:%s" % sender,
-    outboundSMSTextMessage=dict(message="MONITOMONITA\n", message),
+    outboundSMSTextMessage=dict(message="MONITOMONITA\n" + message),
     address=["tel:+63%s" % user],
   )))
   # TODO: Check response
