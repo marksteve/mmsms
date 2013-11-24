@@ -84,7 +84,7 @@ def receive():
       name = s[2]
       o = db.get(key("mmowners", id))
       db.sadd(key("mmgroups", id), key(num, name))
-      send(o, "%s (%s) has joined!" % num, name)
+      send(o, "%s (%s) has joined!" % (num, name))
 
     if s[0] == "DRAW":
       o = db.get(key("mmowners", id))
