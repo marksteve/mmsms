@@ -91,7 +91,7 @@ def receive():
       o = db.get(key("mmowners", id))
       if num != o:
         abort(403)
-      g = [db.smembers(key("mmgroups", id))]
+      g = list(db.smembers(key("mmgroups", id)))
       ordered = []
       while g:
         m = random.choice(g)
@@ -101,7 +101,7 @@ def receive():
       ordered.append(ordered[0])
       print ordered
       for i, m in enumerate(ordered):
-        print m
+        print
         num, name = m.split(":", 1)
         pnum, pname = ordered[i + 1].split(":", 1)
         send(num, "You're MONITO MONITA is %s!", pname)
