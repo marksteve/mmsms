@@ -103,7 +103,7 @@ def receive():
       for i, m in enumerate(ordered):
         num, name = m.split(":", 1)
         pnum, pname = ordered[i + 1].split(":", 1)
-        send(num, "You're MONITO MONITA is %s!" % pname)
+        send(num, "Your MONITO MONITA is %s!" % pname)
         if i >= ol - 1:
           break
 
