@@ -66,7 +66,7 @@ def receive():
         num,
         (
           "Game! Make participants subscribe to %s as well. "
-          "Then, they can join by sending "JOIN %s <NAME>"
+          "Then, they can join by sending \"JOIN %s <NAME>\""
         ) % (
           SHORTCODE,
           id,
