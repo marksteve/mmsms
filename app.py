@@ -89,7 +89,7 @@ def receive():
 
 
 def main():
-  fl.run(host="0.0.0.0", debug=True)
+  fl.run(host="0.0.0.0", port=6000, debug=True)
 
 
 if __name__ == '__main__':
