@@ -69,9 +69,9 @@ def receive():
       send(
         num,
         (
-          "Game! Make participants subscribe to %s as well. "
-          "Join by sending \"JOIN %s <NAME>\". "
-          "Draw by sending \"DRAW %s\"."
+          "Game! Make participants subscribe to %s as well.\n\n"
+          "Join by sending\nJOIN %s <NAME>\n\n"
+          "Draw by sending\nDRAW %s"
         ) % (
           SHORTCODE,
           id,
@@ -82,10 +82,14 @@ def receive():
     if s[0] == "JOIN":
       id = s[1]
       name = s[2]
+      o = db.get(key("mmowners", id))
       db.sadd(key("mmgroups", id), key(num, name))
+      send(o, "%s (%s) has joined!" % num, name)
 
     if s[0] == "DRAW":
-      # TODO: Check owner
+      o = db.get(key("mmowners", id))
+      if num != o:
+        abort(403)
       g = [db.smembers(key("mmgroups", id))]
       ordered = []
       while g:
