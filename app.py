@@ -61,7 +61,7 @@ def receive():
 
     if s[0] == "CREATE":
       while True:
-        id = str(simpleflake())[:6]
+        id = str(random.randint(1000, 9999))
         if db.exists(id):
           continue
         break
@@ -84,7 +84,7 @@ def receive():
       name = s[2]
       o = db.get(key("mmowners", id))
       db.sadd(key("mmgroups", id), key(num, name))
-      send(o, "%s (%s) has joined!" % (num, name))
+      send(o, "%s (%s) has joined!" % (name, num))
 
     if s[0] == "DRAW":
       o = db.get(key("mmowners", id))
