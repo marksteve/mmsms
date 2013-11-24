@@ -61,7 +61,7 @@ def receive():
 
     if s[0] == "CREATE":
       while True:
-        id = simpleflake()[:6]
+        id = str(simpleflake())[:6]
         if db.exists(id):
           continue
         break
