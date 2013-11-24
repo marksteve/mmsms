@@ -33,7 +33,7 @@ def send(user, message):
     outboundSMSMessageRequest=dict(
     clientCorrelator=simpleflake(),
     senderAddress="tel:%s" % sender,
-    outboundSMSTextMessage=dict(message=message),
+    outboundSMSTextMessage=dict(message="MONITOMONITA\n", message),
     address=["tel:+63%s" % user],
   )))
   # TODO: Check response
@@ -60,13 +60,14 @@ def receive():
     s = m["message"].strip().upper().split(" ")
     num = m["senderAddress"].replace("tel:+63", "")
 
-    if s[0] == "CREATE":
+    if s[0] == "START":
       while True:
         id = str(random.randint(1000, 9999))
         if db.exists(id):
           continue
         break
-      db.set(key("mmowners", id), num)
+      k = key("mmowners", id)
+      db.set(k, num)
       send(
         num,
         (
@@ -83,14 +84,23 @@ def receive():
     if s[0] == "JOIN":
       id = s[1]
       name = " ".join(s[2:])
+      if not name:
+        send(num, "Invalid reply!")
+        abort(400)
       o = db.get(key("mmowners", id))
       db.sadd(key("mmgroups", id), key(num, name))
       send(o, "%s (%s) has joined!" % (name, num))
+      send(
+        num,
+        "Successfully joined! Now you just have to wait for another "
+        "message telling you who your MONITO MONITA is.",
+      )
 
     if s[0] == "DRAW":
       id = s[1]
       o = db.get(key("mmowners", id))
       if num != o:
+        send(num, "You cannot initialize drawing!")
         abort(403)
       g = list(db.smembers(key("mmgroups", id)))
       ordered = []
@@ -113,6 +123,8 @@ def receive():
         "For best experience try starting from %s (%s) "
         "when exchanging gifts!" % (fname, fnum),
       )
+      db.delete(key("mmowners", id))
+      db.delete(key("mmgroups", id))
 
     break
   return ""
