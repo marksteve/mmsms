@@ -1,20 +1,16 @@
-from flask import (
-  abort,
-  Flask,
-  request,
-)
-from simpleflake import simpleflake
 import json
 import random
+
 import redis
 import requests
+from flask import abort, Flask, request
+from simpleflake import simpleflake
 
-
-SHORTCODE = "21589973"
+SHORTCODE = "21581734"
 
 
 fl = Flask(__name__)
-db = redis.StrictRedis()
+db = redis.StrictRedis(host="redis")
 
 
 def key(*a):
@@ -31,11 +27,11 @@ def send(user, message):
   params = dict(access_token=access_token)
   payload = json.dumps(dict(
     outboundSMSMessageRequest=dict(
-    clientCorrelator=simpleflake(),
-    senderAddress="tel:%s" % sender,
-    outboundSMSTextMessage=dict(message="MONITOMONITA\n" + message),
-    address=["tel:+63%s" % user],
-  )))
+      clientCorrelator=simpleflake(),
+      senderAddress="tel:%s" % sender,
+      outboundSMSTextMessage=dict(message="MONITOMONITA\n" + message),
+      address=["tel:+63%s" % user],
+    )))
   # TODO: Check response
   requests.post(
     "http://devapi.globelabs.com.ph/smsmessaging/v1/outbound/%s/requests" % sender,
@@ -45,7 +41,7 @@ def send(user, message):
   )
 
 
-@fl.route("/subscribe", methods=["GET"])
+@fl.route("/subscribe")
 def subscribe():
   u = request.args["subscriber_number"]
   k = key("users", u)
@@ -131,7 +127,7 @@ def receive():
 
 
 def main():
-  fl.run(host="0.0.0.0", port=6000, debug=True)
+  fl.run(host="0.0.0.0", port=5000, debug=True)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,12 @@
+redis:
+  image: redis:latest
+  command: redis-server --appendonly yes
+
+flask:
+  build: .
+  volumes:
+    - .:/usr/src/app
+  links:
+    - redis:redis
+  ports:
+    - 5000:5000
