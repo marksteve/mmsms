@@ -1,0 +1,19 @@
+{
+  "name": "mmsms",
+  "version": "0.0.0",
+  "homepage": "https://github.com/marksteve/mmsms",
+  "authors": [
+    "Mark Steve Samson <hello@marksteve.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "skeleton": "*"
+  }
+}
