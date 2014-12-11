@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>mmsms</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/skeleton/css/normalize.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/skeleton/css/skeleton.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>mmsms</h1>
+    <form action="" method="post">
+    {% for _ in range(0, 10) %}
+      <div class="row">
+        <div class="six columns">
+          <input name="name" type="text" class="u-full-width" placeholder="Name">
+        </div>
+        <div class="six columns">
+          <input name="number" type="text" class="u-full-width" placeholder="Number (639XXXXXXXXX)">
+        </div>
+      </div>
+    {% endfor %}
+    <button class="button-primary" type="submit">Draw</button>
+    </form>
+  </div>
+</body>
+</html>

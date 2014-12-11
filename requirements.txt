@@ -1,0 +1,6 @@
+Flask
+gunicorn
+redis
+requests
+simpleflake
+tortilla
