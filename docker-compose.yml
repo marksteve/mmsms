@@ -2,11 +2,10 @@ redis:
   image: redis:latest
   command: redis-server --appendonly yes
 
-flask:
-  build: .
-  volumes:
-    - .:/usr/src/app
+web:
+  image: python:2-onbuild
   links:
     - redis:redis
   ports:
     - 5000:5000
+  command: gunicorn -b 0.0.0.0:5000 app

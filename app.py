@@ -1,135 +1,15 @@
-import json
-import random
+from flask import Flask, render_template
+from redis import StrictRedis
 
-import redis
-import requests
-from flask import abort, Flask, request
-from simpleflake import simpleflake
-
-SHORTCODE = "21581734"
+app = Flask(__name__)
+db = StrictRedis(host='redis')
 
 
-fl = Flask(__name__)
-db = redis.StrictRedis(host="redis")
-
-
-def key(*a):
-  return ":".join(map(str, a))
-
-
-def get_user_token(user_id):
-  return db.get(key("users", user_id))
-
-
-def send(user, message):
-  sender = SHORTCODE[-4:]
-  access_token = get_user_token(user)
-  params = dict(access_token=access_token)
-  payload = json.dumps(dict(
-    outboundSMSMessageRequest=dict(
-      clientCorrelator=simpleflake(),
-      senderAddress="tel:%s" % sender,
-      outboundSMSTextMessage=dict(message="MONITOMONITA\n" + message),
-      address=["tel:+63%s" % user],
-    )))
-  # TODO: Check response
-  requests.post(
-    "http://devapi.globelabs.com.ph/smsmessaging/v1/outbound/%s/requests" % sender,
-    headers={"Content-Type": "application/json"},
-    params=params,
-    data=payload,
-  )
-
-
-@fl.route("/subscribe")
-def subscribe():
-  u = request.args["subscriber_number"]
-  k = key("users", u)
-  # Set user access token
-  db.set(k, request.args["access_token"])
-  return ""
-
-
-@fl.route("/receive", methods=["POST"])
-def receive():
-  for m in request.json["inboundSMSMessageList"]["inboundSMSMessage"]:
-    s = m["message"].strip().upper().split(" ")
-    num = m["senderAddress"].replace("tel:+63", "")
-
-    if s[0] == "START":
-      while True:
-        id = str(random.randint(1000, 9999))
-        if db.exists(id):
-          continue
-        break
-      k = key("mmowners", id)
-      db.set(k, num)
-      send(
-        num,
-        (
-          "Game! Make participants subscribe to %s as well.\n\n"
-          "Join by sending\nJOIN %s <NAME>\n\n"
-          "Draw by sending\nDRAW %s"
-        ) % (
-          SHORTCODE,
-          id,
-          id,
-        )
-      )
-
-    if s[0] == "JOIN":
-      id = s[1]
-      name = " ".join(s[2:])
-      if not name:
-        send(num, "Invalid reply!")
-        abort(400)
-      o = db.get(key("mmowners", id))
-      db.sadd(key("mmgroups", id), key(num, name))
-      send(o, "%s (%s) has joined!" % (name, num))
-      send(
-        num,
-        "Successfully joined! Now you just have to wait for another "
-        "message telling you who your MONITO MONITA is.",
-      )
-
-    if s[0] == "DRAW":
-      id = s[1]
-      o = db.get(key("mmowners", id))
-      if num != o:
-        send(num, "You cannot initialize drawing!")
-        abort(403)
-      g = list(db.smembers(key("mmgroups", id)))
-      ordered = []
-      while g:
-        m = random.choice(g)
-        g.remove(m)
-        ordered.append(m)
-      ol = len(ordered)
-      ordered.append(ordered[0])
-      for i, m in enumerate(ordered):
-        num, name = m.split(":", 1)
-        pnum, pname = ordered[i + 1].split(":", 1)
-        send(num, "Your MONITO MONITA is %s!" % pname)
-        if i >= ol - 1:
-          break
-      fnum, fname = ordered[0].split(":", 1)
-      send(
-        num,
-        "Everyone has their MONITO MONITA now! "
-        "For best experience try starting from %s (%s) "
-        "when exchanging gifts!" % (fname, fnum),
-      )
-      db.delete(key("mmowners", id))
-      db.delete(key("mmgroups", id))
-
-    break
-  return ""
-
-
-def main():
-  fl.run(host="0.0.0.0", port=5000, debug=True)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
-  main()
+    app.run(debug=True)
 

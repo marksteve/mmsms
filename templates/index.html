@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>mmsms</title>
+    <script src="https://use.typekit.net/nth8iei.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main>
+      <h1>mmsms</h1>
+      <section class="desc">
+        Easily set up a
+        <a href="https://en.wikipedia.org/wiki/Secret_Santa" target="_blank">Monito Monita</a>
+        group through SMS!<br>
+        Just add people, hit the DRAW button and you're done.
+      </section>
+      <section class="create">
+        <p>
+          <label>
+            <span>Name</span>
+            <input type="text" placeholder="Maine Mendoza">
+          </label>
+          <label>
+            <span>Number</span>
+            <input type="text" placeholder="09171234567">
+          </label>
+          <button>Add more</button>
+        </p>
+        <p>
+          <label>
+            <span>Theme (optional)</span>
+            <textarea rows="5" placeholder="e.g. Something soft"></textarea>
+          </label>
+        </p>
+        <p>
+          <button>Draw</button>
+        </p>
+      </section>
+      <section>
+        An early Christmas gift from <a href="https://twitter.com/themarksteve">@themarksteve</a>
+      </section>
+    </main>
+  </body>
+</html>
