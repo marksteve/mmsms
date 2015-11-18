@@ -23,6 +23,9 @@ h1 {
 a {
   text-decoration: none;
   border-bottom: 1px solid;
+  color: inherit;
+}
+a:hover {
   color: #f44336;
 }
 input, textarea, button {
@@ -49,7 +52,12 @@ button {
   background: #4caf50;
   cursor: pointer;
   font-size: 80%;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
   text-transform: uppercase;
+}
+button:hover {
+  background: #66bb6a;
 }
 label {
   position: relative;
@@ -63,9 +71,12 @@ label > span {
   line-height: 1;
 }
 main {
+  background: url(gifts.png) no-repeat right bottom;
+  background-size: 20rem;
   width: 60rem;
   padding: 1.5rem;
 }
 .desc {
+  font-size: 161%;
   font-style: italic;
 }
