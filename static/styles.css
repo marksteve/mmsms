@@ -46,6 +46,7 @@ textarea {
   vertical-align: top;
 }
 button {
+  transition: background 0.2s ease-in-out;
   border: 0;
   line-height: 2;
   font-size: 80%;
@@ -58,7 +59,7 @@ button {
   text-transform: uppercase;
 }
 button:hover {
-  background: #66bb6a;
+  background: #388e3c;
 }
 label {
   position: relative;
@@ -99,7 +100,9 @@ section {
   margin: 0;
 }
 #app li button {
-  display: none;
+  transition: all 0.2s ease-in-out;
+  transform: translateY(1.5rem) rotate(90deg);
+  opacity: 0;
   background: #f44336;
   width: 3rem;
   height: 3rem;
@@ -110,6 +113,11 @@ section {
   top: 0;
   left: 0;
 }
+#app li button:hover {
+  background: #d32f2f;
+}
 #app li:hover button {
+  transform: translateY(0) rotate(0deg);
+  opacity: 1;
   display: inline-block;
 }
