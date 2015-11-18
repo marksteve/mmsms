@@ -16,31 +16,44 @@
         and hit <small>DRAW</small>. Participants will receive the name<br>
         of their monito/monita through SMS.
       </section>
-      <section class="create">
+      {% raw -%}
+      <section id="app">
         <p>
           <label>
             <span>Name</span>
-            <input type="text" placeholder="Maine Mendoza">
+            <input v-model="newMember.name" type="text" placeholder="Maine Mendoza">
           </label>
           <label>
             <span>Number</span>
-            <input type="text" placeholder="09171234567">
+            <input v-model="newMember.number" type="text" placeholder="09171234567">
           </label>
-          <button>Add</button>
+          <button v-on:click="addMember">Add</button>
         </p>
-        <p>
-          <label>
-            <span>Theme (optional)</span>
-            <textarea rows="5" placeholder="e.g. Something soft"></textarea>
-          </label>
-        </p>
-        <p>
-          <button>Draw</button>
-        </p>
+        <ul>
+          <li v-for="member in members">
+            <h2>{{ member.name }}</h2>
+            <small>{{ member.number }}</small>
+            <button v-on:click="removeMember($index)">&times;</button>
+          </li>
+        </ul>
+        <template v-if="members.length > 0">
+          <p>
+            <label>
+              <span>Theme (optional)</span>
+              <textarea rows="5" placeholder="e.g. Something soft"></textarea>
+            </label>
+          </p>
+          <p>
+            <button>Draw</button>
+          </p>
+        </template>
       </section>
+      {%- endraw %}
       <section>
         An early Christmas gift from <a href="https://twitter.com/themarksteve">@themarksteve</a>
       </section>
     </main>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.8/vue.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
   </body>
 </html>

@@ -13,12 +13,13 @@ body, input, textarea, button {
 }
 h1, p {
   margin: 0 0 1.5rem 0;
-  padding: 0;
+}
+h1, h2 {
+  color: #f44336;
 }
 h1 {
-  font-size: 4rem;
   font-family: ff-providence-sc-web-pro;
-  color: #f44336;
+  font-size: 400%;
 }
 a {
   text-decoration: none;
@@ -83,4 +84,32 @@ section {
 .desc {
   font-size: 161%;
   font-style: italic;
+}
+#app ul {
+  list-style: none;
+  padding: 0 0 1.5rem;
+}
+#app li {
+  line-height: 1;
+  margin: 0 0 1.5rem -4rem;
+  position: relative;
+  padding-left: 4rem;
+}
+#app li h2 {
+  margin: 0;
+}
+#app li button {
+  display: none;
+  background: #f44336;
+  width: 3rem;
+  height: 3rem;
+  line-height: 2rem;
+  font-size: 150%;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#app li:hover button {
+  display: inline-block;
 }
