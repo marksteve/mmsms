@@ -11,7 +11,7 @@ body, input, textarea, button {
   font: 24px/1.5 grandma, sans-serif;
   color: #795548;
 }
-h1, p, section {
+h1, p {
   margin: 0 0 1.5rem 0;
   padding: 0;
 }
@@ -72,9 +72,13 @@ label > span {
 }
 main {
   background: url(gifts.png) no-repeat right bottom;
-  background-size: 20rem;
-  width: 60rem;
+  background-size: 15rem;
+  max-width: 60rem;
   padding: 1.5rem;
+  margin-bottom: 3rem;
+}
+section {
+  margin-bottom: 3rem;
 }
 .desc {
   font-size: 161%;
