@@ -78,8 +78,7 @@ main {
   background-size: 15rem;
   width: 100%;
   max-width: 60rem;
-  padding: 1.5rem;
-  margin-bottom: 3rem;
+  padding: 3rem 1.5rem;
 }
 header, section, footer {
   margin-bottom: 3rem;
