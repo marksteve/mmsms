@@ -6,6 +6,7 @@ web:
   image: python:2-onbuild
   environment:
     - REDIS_HOST=redis
+  env_file: .env
   links:
     - redis:redis
   ports:
