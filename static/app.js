@@ -5,11 +5,7 @@ new Vue({
       name: "",
       number: "",
     },
-    members: [
-      {name: "Steve", number: "09175246984"},
-      {name: "Big Bert", number: "09175246984"},
-      {name: "Little John", number: "09175246984"},
-    ],
+    members: [],
   },
   methods: {
     addMember: function() {

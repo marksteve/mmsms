@@ -1,20 +1,35 @@
 <!doctype html>
 <html>
   <head>
-    <title>mmsms</title>
+    <title>Monito-monita SMS</title>
     <script src="https://use.typekit.net/nth8iei.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
     <main>
-      <h1>mmsms</h1>
+      {% if has_drawn %}
       <header>
-        The easiest way to set up a
-        <a href="https://en.wikipedia.org/wiki/Secret_Santa" target="_blank">Monito-monita</a> group!<br>
-        Just enter the names and numbers of the participants<br>
+        <h1>And you're done!</h1>
+        <p>Go get a good gift now!<br>
+        Happy holidays!</p>
+      </header>
+      <section id="app">
+        <ul>
+        {% for member in members %}
+          <li>
+            <h2>{{ member.name }}</h2>
+            <small>{{ member.number }}</small>
+          </li>
+        {% endfor %}
+        </ul>
+      </section>
+      {% else %}
+      <header>
+        <h1>Play Monito-monita through SMS</h1>
+        <p>Just enter the names and numbers of the participants<br>
         and hit <small>DRAW</small>. Participants will receive the name<br>
-        of their monito/monita through SMS.
+        of their Monito/Monita through SMS.</p>
       </header>
       {% raw -%}
       <section id="app">
@@ -25,7 +40,7 @@
           </label>
           <label>
             <span>Number</span>
-            <input v-model="newMember.number" type="text" placeholder="09171234567">
+            <input v-model="newMember.number" type="text" placeholder="639171234567">
           </label>
           <button v-on:click="addMember">Add</button>
         </p>
@@ -56,6 +71,7 @@
         </form>
       </section>
       {%- endraw %}
+      {% endif %}
       <footer>
         <p>An early Christmas gift from <a href="https://twitter.com/themarksteve">@themarksteve</a></p>
       </footer>
