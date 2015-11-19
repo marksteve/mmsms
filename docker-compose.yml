@@ -4,6 +4,8 @@ redis:
 
 web:
   image: python:2-onbuild
+  environment:
+    - REDIS_HOST=redis
   links:
     - redis:redis
   ports:
