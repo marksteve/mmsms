@@ -73,6 +73,9 @@ label > span {
   top: 0;
   line-height: 1;
 }
+.note {
+  color: #bcaaa4;
+}
 main {
   background: url(gifts.png) no-repeat right bottom;
   background-size: 15rem;
@@ -121,10 +124,6 @@ header {
   transform: translateY(0) rotate(0deg);
   opacity: 1;
   display: inline-block;
-}
-.draw-info {
-  color: #bcaaa4;
-  margin-left: 1rem;
 }
 footer {
   padding-top: 3rem;

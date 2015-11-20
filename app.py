@@ -63,10 +63,19 @@ def index():
             if theme:
                 message += "Our theme is \"{}\". ".format(theme)
             send_sms(number, message)
-        context.update(has_drawn=True)
+        context.update(has_drawn=True, members=members)
+        session.clear()
     else:
         abort(405)
     return render_template("index.html", **context)
+
+
+@app.errorhandler(400)
+@app.errorhandler(401)
+@app.errorhandler(404)
+@app.errorhandler(405)
+def error(error):
+  return render_template("error.html", error=error)
 
 
 if __name__ == "__main__":
