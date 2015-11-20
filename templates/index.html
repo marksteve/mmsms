@@ -31,25 +31,26 @@
         and hit <small>DRAW</small>. Participants will receive the name<br>
         of their Monito/Monita through SMS.</p>
       </header>
-      {% raw -%}
       <section id="app">
-        <p>
-          <label>
-            <span>Name</span>
-            <input v-model="newMember.name" type="text" placeholder="Maine Mendoza">
-          </label>
-          <label>
-            <span>Number</span>
-            <input v-model="newMember.number" type="text" placeholder="639171234567">
-          </label>
-          <button v-on:click="addMember">Add</button>
-        </p>
         <form action="" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          {% raw -%}
+          <p>
+            <label>
+              <span>Name</span>
+              <input v-model="newMember.name" type="text" placeholder="Maine Mendoza">
+            </label>
+            <label>
+              <span>Number</span>
+              <input v-model="newMember.number" type="text" placeholder="639171234567">
+            </label>
+            <button type="button" v-on:click="addMember">Add</button>
+          </p>
           <ul>
             <li v-for="member in members">
               <h2>{{ member.name }}</h2>
               <small>{{ member.number }}</small>
-              <button v-on:click="removeMember($index)">&times;</button>
+              <button type="button" v-on:click="removeMember($index)">&times;</button>
               <input type="hidden" name="name" value="{{ member.name }}">
               <input type="hidden" name="number" value="{{ member.number }}">
             </li>
@@ -68,9 +69,9 @@
               </span>
             </p>
           </template>
+          {%- endraw %}
         </form>
       </section>
-      {%- endraw %}
       {% endif %}
       <footer>
         <p>An early Christmas gift from <a href="https://twitter.com/themarksteve">@themarksteve</a></p>

@@ -1,8 +1,9 @@
+import base64
 import os
 import random
 
 import requests
-from flask import Flask, render_template, request
+from flask import abort, Flask, render_template, request, session
 from redis import StrictRedis
 from simpleflake import simpleflake
 
@@ -13,6 +14,7 @@ CLIENT_ID = os.environ["CHIKKA_CLIENT_ID"]
 SECRET_KEY = os.environ["CHIKKA_SECRET_KEY"]
 
 app = Flask(__name__)
+app.config.update(SECRET_KEY=os.environ["SECRET_KEY"])
 db = StrictRedis(host=os.environ.get("REDIS_HOST", "localhost"))
 
 
@@ -31,10 +33,23 @@ def send_sms(mobile_number, message):
   )
 
 
+def gen_csrf_token():
+  return base64.b64encode(os.urandom(32))
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     context = {}
-    if request.method == "POST":
+    if request.method == "GET":
+        if "csrf_token" not in session:
+            session["csrf_token"] = gen_csrf_token()
+        context.update(csrf_token=session["csrf_token"])
+    elif request.method == "POST":
+        csrf_token = session.get("csrf_token")
+        if not csrf_token:
+            abort(401)
+        if request.form["csrf_token"] != csrf_token:
+            abort(401)
         names = request.form.getlist("name")
         numbers = request.form.getlist("number")
         theme = request.form.get("theme", "").strip()
@@ -49,8 +64,11 @@ def index():
                 message += "Our theme is \"{}\". ".format(theme)
             send_sms(number, message)
         context.update(has_drawn=True)
+    else:
+        abort(405)
     return render_template("index.html", **context)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
