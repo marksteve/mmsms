@@ -2,8 +2,8 @@
 
 {% block content %}
   <header>
-    <h1>Oops!</h1>
-    <p>{{ error }}</p>
+    <h1>{{ error.name }}</h1>
+    <p>{{ error.description }}</p>
   </header>
   <section>
     <p><a href="{{ url_for('index') }}">&lsaquo; There's no place like home</a></p>
