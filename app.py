@@ -44,15 +44,27 @@ def gen_csrf_token():
 def rate_limit(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        last_req = db.get("last_req:" + request.remote_addr)
-        if request.method == "POST" and last_req:
-            limit_end = int(last_req) + 30 * 60
-            remaining = limit_end - int(time.time())
-            if remaining > 0:
-                raise TooManyRequests("Try again in {} minutes.".format(
-                    int(math.ceil(remaining / 60.))
-                ))
-        return f(*args, **kwargs)
+        last_req_key = "last_req:" + request.headers.get(
+            'X-Forwarded-For', request.remote_addr)
+        last_req = db.get(last_req_key)
+        now = int(time.time())
+        if request.method == "POST":
+            if last_req:
+                limit_end = int(last_req) + 30 * 60
+                remaining = limit_end - now
+                if remaining > 0:
+                    raise TooManyRequests("Try again in {} minutes.".format(
+                        int(math.ceil(remaining / 60.))
+                    ))
+            try:
+                resp = f(*args, **kwargs)
+            except Exception:
+                raise
+            else:
+                db.set(last_req_key, now)
+                return resp
+        else:
+            return f(*args, **kwargs)
     return decorated
 
 
@@ -86,7 +98,6 @@ def index():
             if theme:
                 message += "Our theme is \"{}\". ".format(theme)
             send_sms(number, message)
-        db.set("last_req:" + request.remote_addr, int(time.time()))
         context.update(has_drawn=True, members=members)
         session.clear()
     else:
