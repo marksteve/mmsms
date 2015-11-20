@@ -85,7 +85,7 @@ def index():
                 name, assigned_name)
             if theme:
                 message += "Our theme is \"{}\". ".format(theme)
-            # send_sms(number, message)
+            send_sms(number, message)
         db.set("last_req:" + request.remote_addr, int(time.time()))
         context.update(has_drawn=True, members=members)
         session.clear()
